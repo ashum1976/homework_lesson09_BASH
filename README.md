@@ -27,32 +27,32 @@
 
 <details> 
                 <summary> Перенаправление "<< - HERE TEXT"  </summary>
-<< - HERE TEXT
-wc -l << EOF
-Ssss
-Sdsd
-Sdsd
-EOF
+    << - HERE TEXT
+    wc -l << EOF
+    Ssss
+    Sdsd
+    Sdsd
+    EOF
 
 </details>
 
 <details> 
                 <summary> Перенаправление "<<< - HERE TEXT"  </summary>
 
-<<< - HERE STRING
-$ read first second <<< "hello world"
-$ echo $second $first
+    <<< - HERE STRING
+    $ read first second <<< "hello world"
+    $ echo $second $first
 </details>
 
 <details> 
                 <summary> Перенаправление "<<< - HERE DOC"  </summary>
 
-<<< - HERE DOC
-cat << EOF > myscript.sh
-#!/bin/bash
-echo “Hello Linux!!!”
-exit 0
-EOF
+    <<< - HERE DOC
+    cat << EOF > myscript.sh
+    #!/bin/bash
+    echo “Hello Linux!!!”
+    exit 0
+    EOF
 </details>
 
 ##                                          1.3 Переменные в BASH
