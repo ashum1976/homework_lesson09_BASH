@@ -27,7 +27,7 @@
 
 <details> 
                 <summary> Перенаправление "<< - HERE TEXT"  </summary>
-    << - HERE TEXT
+    
     wc -l << EOF
     Ssss
     Sdsd
@@ -39,7 +39,6 @@
 <details> 
                 <summary> Перенаправление "<<< - HERE TEXT"  </summary>
 
-    <<< - HERE STRING
     $ read first second <<< "hello world"
     $ echo $second $first
 </details>
@@ -47,7 +46,6 @@
 <details> 
                 <summary> Перенаправление "<<< - HERE DOC"  </summary>
 
-    <<< - HERE DOC
     cat << EOF > myscript.sh
     #!/bin/bash
     echo “Hello Linux!!!”
