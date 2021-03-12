@@ -139,7 +139,8 @@
         esac
 
 4.  <details> 
-                <summary>**Команда find**</summary>
+                    Test
+    <summary>Команда find</summary>
 
         find ./ -type f -exec chmod -X '{}' \;  <----- Изменить атрибуты файлов ( -type f), убрать значение, что этот файл исполняемый, если он таковым не является
 </details>
