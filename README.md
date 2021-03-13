@@ -140,7 +140,8 @@
 
 
 
-*   <details> 
+*   
+    <details> 
                     
     <summary>Команда find</summary>
     
