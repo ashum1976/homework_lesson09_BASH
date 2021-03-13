@@ -191,7 +191,7 @@
 
 <details> 
     <summary>Потоковый текстовый редактор "sed" </summary>
-    <summary> </summary>
+    <summary> Ключи работы команды </summary>
     
 **d <-- _удалить строку_**
 
