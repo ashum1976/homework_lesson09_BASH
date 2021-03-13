@@ -203,6 +203,9 @@
         awk '/[oi]th/{print $0}' myfile 
         
         awk '/[Tt]his is a test/{print $0}' myfile
+___
+
+===
 
 <details> 
     <summary>Потоковый текстовый редактор "awk"   </summary>
