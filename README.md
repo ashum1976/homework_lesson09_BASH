@@ -160,6 +160,7 @@
 
 ##          1.5 Массивы
 
+**Способы инициализации массива         :**
 
     files = $(ls) - считывается строка
     array=('first element' 'second element' 'third element')
