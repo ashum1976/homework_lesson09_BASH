@@ -27,26 +27,44 @@ ___
     yum install postfix mutt
     
     #Отключаем в настройках postfix-a протокол IPv6
-    sed -i  '/inet_protocols/s/inet_protocols = all/inet_protocols = ipv4/' /etc/postfix/main.cf
+    
+    if [[ ! $(grep 'inet_protocols = ipv4' /etc/postfix/main.cf) ]]
+    then 
+            sed -i  '/inet_protocols/s/inet_protocols = all/inet_protocols = ipv4/' /etc/postfix/main.cf
+            
+    fi
     
     #Запускаем почтовый сервер postfix, для приёма сообщения для vagrant-a
     systemctl start postfix
     
+    mkdir -p /var/tmp/log                   <---- Создадим рабочий каталог, для работы скриптов генерации и анализа
+    
     #Расположение крон-файла пользователя vagrant
-    fs=/var/spool/cron/vagrant 
-
+    touch  /var/spool/cron/vagrant
+    chmod 600 /var/spool/cron/vagrant
+    chown vagrant: /var/spool/cron/vagrant
+    
+    #Lock файл для работы утилиты flock, с нужными доступами и разрешениями
+    touch /var/tmp/log/hw_genlog.lock && echo "lock file create !!!!!"
+    chmod 600 /var/tmp/log/hw_genlog.lock
+    chown  vagrant:vagrant /var/tmp/log/hw_genlog.lock
+    
+    fs=/var/spool/cron/vagrant
+    
     #Проверим крон-файл пользователя vagrant, на наличие записи о запуске скрипта генерации лог файла analise_log_file.txt каждую минуту. Запустим расписание под управлением flock утилиты, еоторая предотвращает повторный запуск файла генерации (hw_genlog.sh), а при попытке такого запуска, блокирует второй процесс и через 20 секунд завершает его, если первый процесс не закончился к этому времени. 
     #С помощью генератора лог-файла, имитируем работу веб сервера. Запускается каждую минуту.
-    if [[ ! grep '*/1 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_genlog.sh ' $fs ]]
-        then 
-                echo "*/1 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_genlog.sh" >> $fs 
+    if [[ ! $(grep '*/1 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_genlog.sh' $fs) ]]
+    then 
+            echo "*/1 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_genlog.sh" > $fs
+            chmod 600 $fs
     fi
 
-    #Такой же запуск скрипта для анализа лог-файла analise_log_file.txt, Тоже под управлением flock. Анализатор лог-файла. Запускается каждые 3 минуты.
-    if [[ ! grep '*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_bash.lock -c /vagrant/hw_bash.sh ' $fs ]]
+    #Такой же запуск скрипта для анализа лог-файла analise_log_file.txt, Тоже под управлением flock.
+    if [[ ! $(grep '*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock-c /vagrant/hw_bash.sh' $fs) ]]
         then 
-                echo "*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_bash.lock -c /vagrant/hw_bash.sh" >> $fs 
-    fi  
+                echo "*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_bash.sh" >> $fs
+                
+    fi
     
 </details> 
     <details> 
@@ -408,8 +426,10 @@ ___
 
 *   **flock             :** _Для предотвращения повторного запуска скрипта, программы и т.д.  используется стандартная утилиту в Linux flock.  Находится в пакете util-linux
 
-Пример запуска скрипта:
 
+<details> 
+    <summary>Примеры команды flock </summary>
+    
     /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_genlog.sh
 
     где:
@@ -418,7 +438,8 @@ ___
             -x    <---- эксклюзивная блокировка (блокировка записи запись), может быть другой вариант блокировки ( блокировка чтения)
             /var/tmp/log/hw_genlog.lock <---   при вызове надо будет указать файл блокировки, должен находится в директории с правами на запись.
 
-
+</details>
+            
 *   **case  EXPR in   :**  _Команда проверки  выражения:_
 
 <details> 
@@ -733,7 +754,7 @@ ___
 
 
 
-*         _**переименование файла**_ -  *mv $logfile "$(ls $logfile | cut -f 1 -d .).log1"*
+*         _**переименование файла**_ -  *mv $logfile "$(ls $logfile | cut -f 1 -d .).log1"*    Когда имя файла задано переменной, вырезать первое поле с именем ($(ls $logfile | cut -f 1 -d .)) и сформировать новое имя . Пример для использования программы "cut"
 
 
 
