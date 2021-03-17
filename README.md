@@ -60,9 +60,9 @@ ___
     fi
 
     #Такой же запуск скрипта для анализа лог-файла analise_log_file.txt, Тоже под управлением flock.
-    if [[ ! $(grep '*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock-c /vagrant/hw_bash.sh' $fs) ]]
+    if [[ ! $(grep '*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_bash.lock-c /vagrant/hw_bash.sh' $fs) ]]
         then 
-                echo "*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_genlog.lock -c /vagrant/hw_bash.sh" >> $fs
+                echo "*/3 * * * * /usr/bin/flock -w 20 -x /var/tmp/log/hw_bash.lock -c /vagrant/hw_bash.sh" >> $fs
                 
     fi
     
