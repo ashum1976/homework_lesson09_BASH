@@ -91,7 +91,7 @@ filedata=/var/tmp/log/
                 log_date_first=$(head -n1 ${filelog} | awk -F" " '{print $4}' | tr -d [ )
                             
                 #Заносим значение последней даты с помощью tee,  в переменную и в файл на диске. 
-                log_date_last=$(tail -n1 ${filelog} | awk -F" " '{print $4}' | tr -d [ | tee ${filedata}log_date_save_last.txt )
+                log_date_last=$(tail -n1 ${filelog} | awk -F" " '{print $4}' | tr -d [ | tee ${filedata}log_date_save_last.txt)
                 
                 # Переменная с уникальными IP,  сортировкой по первому полю (в нём частота появления IP)  по убывающей, лог файла
 
