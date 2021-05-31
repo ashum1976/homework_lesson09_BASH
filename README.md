@@ -342,7 +342,7 @@ ___
                 <summary> Перенаправление "<<< - HERE DOC"  </summary>
 
     cat <<-EOF > myscript.sh
-#!/bin/bash
+/#!/bin/bash
 echo “Hello Linux!!!”
 exit 0
 EOF
@@ -893,7 +893,7 @@ ___
 
    <tr>
         <td>${#arr[@]}</td>
-        <td>Вычисление размера массива</td>
+        <td>Вычисление размера, количество элементов массива. </td>
    </tr>
 
    <tr>
