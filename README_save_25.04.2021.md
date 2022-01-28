@@ -341,9 +341,9 @@ ___
 <details>
                 <summary> Перенаправление "<<< - HERE DOC"  </summary>
 
-    cat <<-EOF > myscript.sh
-#!/bin/bash
-echo “Hello Linux!!!”
+    cat <<-EOF > myscript.sh  
+\#!/bin/bash  
+echo “Hello Linux!!!”  
 exit 0
 EOF
 Пример из скрипта, создание файла в каталоге /etc/sudoers.d/tester
